@@ -18,7 +18,7 @@
 }
 
 #let focus-slide(body) = {
-    set page(fill: purple)
+    set page(fill: blue)
     set text(fill: white)
 
     state("grape-suite-slides", ()).update(k => {
@@ -94,7 +94,7 @@
 
     show footnote.entry: set text(size: 0.5em)
 
-    show heading: set text(fill: purple)
+    show heading: set text(fill: blue)
 
     set text(size: fontsize, font: text-font)
     show math.equation: set text(font: math-font, size: fontsize)
@@ -105,7 +105,7 @@
 
             (context if show-footer and (not show-title-slide or here().page() > 1) {
                 set text(fill: if fs.at(here()).last() != none and fs.at(here()).last() == "normal" {
-                    purple.lighten(25%)
+                    blue.lighten(25%)
                 } else {
                     blue.lighten(25%)
                 })
@@ -137,11 +137,11 @@
         slide(align(horizon, [
             #block(inset: (left: 1cm, top: 3cm))[
                 #if head-replacement == none [
-                    #text(fill: purple, size: 2em, strong[#series ] + if no != none [\##no]) \
+                    #text(fill: blue, size: 2em, strong[#series ] + if no != none [\##no]) \
                 ] else { head-replacement }
                 //
                 #if title-replacement == none [
-                   #text(fill: purple.lighten(25%), strong(title))
+                   #text(fill: blue.lighten(25%), strong(title))
                 ] else { title-replacement }
 
                 #set text(size: 0.75em)
@@ -153,9 +153,9 @@
     }
 
     if show-outline {
-        set page(fill: purple, footer: context if show-footer {
+        set page(fill: blue, footer: context if show-footer {
             set text(fill: if here().page() > 2 or not show-outline {
-                purple.lighten(25%)
+                blue.lighten(25%)
             } else {
                 blue.lighten(25%)
             })

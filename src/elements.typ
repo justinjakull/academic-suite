@@ -6,7 +6,7 @@
 
     pad(bottom: 0.25cm,
         align(center,
-            text(fill: purple,
+            text(fill: blue,
                 size: 1.75em,
                 strong(title))))
 }
@@ -87,7 +87,7 @@
     title: context state("grape-suite-box-translations", standard-box-translations).final().at("task"),
     primary-color: blue,
     secondary-color: blue.lighten(90%),
-    tertiary-color: purple,
+    tertiary-color: blue,
     figure-kind: "task",
     counter: counter("grape-suite-element-task"))
 
@@ -103,7 +103,7 @@
     title: context state("grape-suite-box-translations", standard-box-translations).final().at("solution"),
     primary-color: blue,
     secondary-color: blue.lighten(90%),
-    tertiary-color: purple,
+    tertiary-color: blue,
     dotted: true,
     figure-kind: "solution",
     counter: counter("grape-suite-element-solution"))
@@ -163,7 +163,7 @@
         let num = text(weight: "thin", numbering(num-style, ..counter(heading).at(here()))+[ \u{200b}])
         let x-offset = -1 * measure(num).width
 
-        pad(left: x-offset, par(hanging-indent: -1 * x-offset, text(fill: purple.lighten(25%), num) + [] + text(fill: purple, it.body)))
+        pad(left: x-offset, par(hanging-indent: -1 * x-offset, text(fill: blue.lighten(25%), num) + [] + text(fill: blue, it.body)))
     }
 
     body

@@ -1,16 +1,16 @@
 [package]
-name = "grape-suite"
-version = "3.1.0"
+name = "uni-jena-suite"
+version = "0.1.0"
 compiler = "0.13.0"
 entrypoint = "src/library.typ"
 
-authors = ["Tristan Pieper <tristanpieper080803@gmail.com>"]
+authors = ["Justin Jakull <justin@jakull.de>"]
 
 repository = "https://github.com/piepert/grape-suite"
 license = "MIT"
 
-keywords = ["clean", "grape", "minimal", "paper"]
-description = "Library of templates for exams, seminar papers, homeworks, etc."
+keywords = ["clean", "blue", "minimal", "paper", "jena"]
+description = "Library of templates for exams, seminar papers, homeworks, etc. based on grape-suite, designed for uni-jena.de corporate deisgn"
 categories = ["layout", "paper", "presentation"]
 exclude = ["/img/*", "/examples/*"]
 

@@ -109,7 +109,7 @@
     distribution-header-point-value: [Point],
     distribution-header-point-grade: [Grade],
 
-    message: (points-sum, extrapoints-sum) => [In sum #points-sum + #extrapoints-sum P. are achievable. You achieved #box(line(stroke: purple, length: 1cm)) out of #points-sum points.],
+    message: (points-sum, extrapoints-sum) => [In sum #points-sum + #extrapoints-sum P. are achievable. You achieved #box(line(stroke: blue, length: 1cm)) out of #points-sum points.],
     grade-scale: (
         ([excellent], 0.9),
         ([very good], 0.8),
@@ -147,9 +147,9 @@
     set list(indent: 1em)
 
     show link: underline
-    show link: set text(fill: purple)
+    show link: set text(fill: blue)
 
-    show heading: set text(fill: purple)
+    show heading: set text(fill: blue)
     show heading: set par(justify: false)
     show: format-heading-numbering
 
@@ -249,11 +249,11 @@
                 )
             }
         ] + if show-header-line {
-            v(-0.5em) + line(length: 100%, stroke: purple)
+            v(-0.5em) + line(length: 100%, stroke: blue)
         },
 
         footer: if show-footer-line {
-            line(length: 100%, stroke: purple) + v(-0.5em)
+            line(length: 100%, stroke: blue) + v(-0.5em)
         } + if footer != none {footer} else {
             set text(size: 0.75em)
 

@@ -1,6 +1,7 @@
 #import "colors.typ" as colors: *
 #import "todo.typ": todo, list-todos, hide-todos
 #import "elements.typ": *
+#import "@preview/hydra:0.6.1": hydra
 
 #let project(
     title: none,
@@ -49,7 +50,8 @@
 
     page-margins: none,
 
-    text-font: ("Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Libertinus Serif"),
+    text-font: ("Libertinus Serif"),
+    title-font: ("Roboto"),
     math-font: ("STIX Two Math", "New Computer Modern Math"),
 
     fontsize: 11pt,
@@ -65,21 +67,22 @@
     set list(indent: 1em)
 
     show link: underline
-    show link: set text(fill: purple)
+    show link: set text(fill: blue)
 
     show: format-heading-numbering
     show: format-quotes
 
     // title page
     [
+        #set text(font: title-font)
         #set text(size: 1.25em, hyphenate: false)
         #set par(justify: false)
 
         #v(0.9fr)
-        #text(size: 2.5em, fill: purple, strong(title)) \
+        #text(size: 2.5em, fill: blue, strong(title)) \
         #if subtitle != none {
             v(0em)
-            text(size: 1.5em, fill: purple.lighten(25%), subtitle)
+            text(size: 1.5em, fill: blue.lighten(25%), subtitle)
         }
 
         #if title-page-part == none [
@@ -124,19 +127,29 @@
 
     set page(
         margin: if page-margins != none {page-margins} else {
-            (top: 2.5cm, bottom: 2.5cm, right: 4cm)
+            (top: 3cm, bottom: 3cm, right: 2cm, left: 4cm)
         },
 
         header: if header != none {header} else [
-            #set text(size: 0.75em)
+            #set text(font: title-font, size: 0.75em)
 
-            #table(columns: (1fr, auto, 1fr), align: bottom, stroke: none, inset: 0pt, if header-left != none {header-left} else [
-                #title
-            ], align(center, if header-middle != none {header-middle} else []), if header-right != none {header-right} else [
-                #show: align.with(top + right)
-                #author, #date-format(date)
-            ])
-        ] + if show-header-line { v(-0.5em) + line(length: 100%, stroke: purple) },
+            #table(columns: (1fr, auto, 1fr),
+                align: bottom,
+                stroke: none,
+                inset: 0pt,
+
+                if header-left != none {header-left} else [
+                    #context(hydra(1))
+                ], 
+
+                align(center, if header-middle != none {header-middle} else []),
+                
+                if header-right != none {header-right} else [
+                    #show: align.with(top + right)
+                    #context(here().page())
+                ]
+            )
+        ] + if show-header-line { v(-0.5em) + line(length: 100%, stroke: blue) },
     )
 
     state("grape-suite-element-sentence-supplement").update(sentence-supplement)
@@ -160,21 +173,22 @@
 
     // main body setup
     set page(
+
         background: context state("grape-suite-seminar-paper-sidenotes", ())
             .final()
             .map(e => context {
                 if here().page() == e.loc.at(0) {
                     set par(justify: false, leading: 0.65em)
-                    place(top + right, align(left, text(fill: purple, size: 0.75em, hyphenate: false, pad(x: 0.5cm, block(width: 3cm, strong(e.body))))), dy: e.loc.at(1).y)
+                    place(top + right, align(left, text(fill: blue, size: 0.75em, hyphenate: false, pad(x: 0.5cm, block(width: 3cm, strong(e.body))))), dy: e.loc.at(1).y)
                 } else {
                 }
             }).join[],
 
         footer: if footer != none {footer} else {
-            set text(size: 0.75em)
+            set text(font: title-font, size: 0.75em)
 
             if show-footer-line {
-                line(length: 100%, stroke: purple)
+                line(length: 100%, stroke: blue)
                 v(-0.5em)
             }
 
@@ -183,15 +197,15 @@
                 stroke: none,
                 inset: 0pt,
 
-                if footer-left != none {footer-left},
+                if footer-left != none {footer-left} else [
+                    #align(left, context {title})
+                ],
 
-                align(center, context {
-                    str(counter(page).display())
-                    [ \/ ]
-                    str(counter("grape-suite-last-page").final().first())
-                }),
+                align(center, if header-middle != none {header-middle} else []),
 
-                if footer-right != none {footer-right}
+                if footer-right != none {footer-right} else [
+                    #align(right, context {author})
+                ],
             )
         }
     )
@@ -210,7 +224,7 @@
     // declaration of independent work
     if show-declaration-of-independent-work {
         pagebreak(weak: true)
-        set page(footer: [])
+        set page(header: {v(-0.5em) + line(length: 100%, stroke: blue) })
 
         heading(outlined: false, numbering: none, [Selbstständigkeitserklärung])
         [Hiermit versichere ich, dass ich die vorliegende schriftliche Hausarbeit (Seminararbeit, Belegarbeit) selbstständig verfasst und keine anderen als die von mir angegebenen Quellen und Hilfsmittel benutzt habe. Die Stellen der Arbeit, die anderen Werken wörtlich oder sinngemäß entnommen sind, wurden in jedem Fall unter Angabe der Quellen (einschließlich des World Wide Web und anderer elektronischer Text- und Datensammlungen) kenntlich gemacht. Dies gilt auch für beigegebene Zeichnungen, bildliche Darstellungen, Skizzen und dergleichen. Ich versichere weiter, dass die Arbeit in gleicher oder ähnlicher Fassung noch nicht Bestandteil einer Prüfungsleistung oder einer schriftlichen Hausarbeit (Seminararbeit, Belegarbeit) war. Mir ist bewusst, dass jedes Zuwiderhandeln als Täuschungsversuch zu gelten hat, aufgrund dessen das Seminar oder die Übung als nicht bestanden bewertet und die Anerkennung der Hausarbeit als Leistungsnachweis/Modulprüfung (Scheinvergabe) ausgeschlossen wird. Ich bin mir weiter darüber im Klaren, dass das zuständige Lehrerprüfungsamt/Studienbüro über den Betrugsversuch informiert werden kann und Plagiate rechtlich als Straftatbestand gewertet werden.]

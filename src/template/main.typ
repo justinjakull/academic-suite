@@ -1,9 +1,10 @@
-#import "@preview/grape-suite:3.1.0": seminar-paper, german-dates
+#import "../thesis.typ" as seminar-paper
+#import "../german-dates.typ"
 
 #set text(lang: "de")
 
 #show: seminar-paper.project.with(
-    title: "Die Intensionalität von dass-Sätzen",
+    title: "Die Intensionalität von dass-Sätzen, mit Doppel s du Mongo!",
     subtitle: "Intensionale Kontexte in philosophischen Argumenten",
 
     university: [Universität Musterstadt],
@@ -27,7 +28,6 @@
 
 = Einleitung
 #lorem(100)
-
 
 #lorem(100)
 

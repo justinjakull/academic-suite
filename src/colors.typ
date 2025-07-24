@@ -1,4 +1,4 @@
-#let blue = rgb("#648fff")
+#let blue = rgb("#002f5d")
 #let purple = rgb("#555ef0").darken(50%)
 #let magenta = rgb("#dc267f")
 #let brown = rgb("#fe6100").darken(50%)
