@@ -1,3 +1,5 @@
+//LTeX: enabled=false
+
 #import "colors.typ": blue
 #import "exercise.typ" as exercise
 #import "todo.typ": todo

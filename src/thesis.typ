@@ -1,36 +1,54 @@
+//LTeX: enabled=false
+
 #import "colors.typ" as colors: *
 #import "todo.typ": todo, list-todos, hide-todos
 #import "elements.typ": *
 #import "@preview/hydra:0.6.1": hydra
 
 #let project(
-    title: none,
+    title: [#todo[Title]],
     subtitle: none,
+    thesis-type: none,
 
-    submit-to: "Submitted to",
-    submit-by: "Submitted by",
+    academic-degree: "ACADEMIC DEGREE",
+    academic-subject: "ACADEMIC SUBJECT",
 
     university: "UNIVERSITY",
     faculty: "FACULTY",
     institute: "INSTITUTE",
     seminar: "SEMINAR",
-    semester: "SEMESTER",
     docent: "DOCENT",
 
     author: "AUTHOR",
     student-number: none,
-    email: "EMAIL",
-    address: "ADDRESS",
-
-    title-page-part: none,
-    title-page-part-submit-date: none,
-    title-page-part-submit-to: none,
-    title-page-part-submit-by: none,
-
-    sentence-supplement: "Example",
+    email: none,
+    birthdate: none,
+    birthplace: none,
 
     date: datetime.today(),
     date-format: (date) => if type(date) == type(datetime.today()) { date.display("[day].[month].[year]") } else { date },
+    city: "CITY",
+
+    to-reach-academic-degree: "To obtain the academic degree of",
+    in-the-subject-of: "In the subject of",
+    submit-to: "Submitted to",
+    submit-by: "Submitted by",
+    born-on: "born",
+    born-in: "in",
+
+    title-page-show-logo: true,
+    title-page-logo-file:"static/Bildmarke_blue_23cm.png",
+    title-page-part: none,
+    tite-page-show-academic-degree: true,
+    title-page-part-academic-degree: none,
+    tite-page-show-submit-date: true,
+    title-page-part-submit-date: none,
+    tite-page-show-submit-to: true,
+    title-page-part-submit-to: none,
+    tite-page-show-submit-by: true,
+    title-page-part-submit-by: none,
+
+    sentence-supplement: "Example",
 
     header: none,
     header-right: none,
@@ -50,50 +68,71 @@
 
     page-margins: none,
 
-    text-font: ("Libertinus Serif"),
-    title-font: ("Roboto"),
+    text-font: ("Noto Serif", "Roboto Serif", "Libertinus Serif"),
+    title-font: ("Noto Sans"),
     math-font: ("STIX Two Math", "New Computer Modern Math"),
+    code-font: ("Noto Sans Mono", "FiraCode Nerd Font"),
+
+    accent-color: blue,
 
     fontsize: 11pt,
 
     body
 ) = {
+    // format settings
+
     let ifnn-line(e) = if e != none [#e \ ]
 
     set text(font: text-font, size: fontsize)
-    show math.equation: set text(font: math-font)
+    show math.equation: set text(size: 13pt,font: math-font)
+    show raw: set text(size: 11.5pt,font:code-font)
+    show figure: set figure(gap: 1.5em)
 
     set enum(indent: 1em)
     set list(indent: 1em)
 
-    show link: underline
-    show link: set text(fill: blue)
+    show link: emph
 
-    show: format-heading-numbering
+    show heading: it => format-heading-numbering(it, accent-color: accent-color)
+    show heading: set text(weight: "bold", fill:accent-color)
     show: format-quotes
+
 
     // title page
     [
+        #set align(center)
         #set text(font: title-font)
         #set text(size: 1.25em, hyphenate: false)
         #set par(justify: false)
 
-        #v(0.9fr)
-        #text(size: 2.5em, fill: blue, strong(title)) \
+        #v(3fr)
+        #if(title-page-show-logo){image(title-page-logo-file, width: 75%)}
+        #v(2fr)
+        #text(size: 2.5em, fill: accent-color, strong(title)) \
         #if subtitle != none {
             v(0em)
-            text(size: 1.5em, fill: blue.lighten(25%), subtitle)
+            text(size: 1.5em, fill: accent-color.lighten(25%), subtitle)
         }
 
-        #if title-page-part == none [
-            #if title-page-part-submit-date == none {
-                ifnn-line(semester)
-                ifnn-line(date-format(date))
-            } else {
-                title-page-part-submit-date
-            }
+        #if thesis-type != none {
+            v(0em)
+            text(size: 1.5em, fill: accent-color.lighten(25%), thesis-type)
+        }
 
-            #if title-page-part-submit-to == none {
+        
+        #if title-page-part == none [
+
+            #if (title-page-part-academic-degree == none) and tite-page-show-academic-degree{
+                ifnn-line(text(size: 0.6em, upper(strong(to-reach-academic-degree))))
+                ifnn-line(academic-degree)
+                ifnn-line(text(size: 0.6em, upper(strong(in-the-subject-of))))
+                ifnn-line(academic-subject)
+            } else {
+                title-page-part-submit-to
+            }
+            
+            #v(3fr)
+            #if (title-page-part-submit-to == none) and tite-page-show-submit-to{
                 ifnn-line(text(size: 0.6em, upper(strong(submit-to))))
                 ifnn-line(university)
                 ifnn-line(faculty)
@@ -104,19 +143,33 @@
                 title-page-part-submit-to
             }
 
-            #if title-page-part-submit-by == none {
+            #if (title-page-part-submit-by == none) and tite-page-show-submit-by {
                 ifnn-line(text(size: 0.6em, upper(strong(submit-by))))
                 ifnn-line(author + if student-number != none [ (#student-number)])
                 ifnn-line(email)
-                ifnn-line(address)
+                if(birthdate != none) {
+                    if(birthplace != none){ifnn-line([#born-on #birthdate, #born-in #birthplace])
+                    } else {
+                        ifnn-line([#born-on #birthdate])
+                    }
+                }
+                
             } else {
                 title-page-part-submit-by
             }
+
+            #v(3fr)
+            #if (title-page-part-submit-date == none) and tite-page-show-submit-date{
+                [#city, #date-format(date)]
+            } else {
+                title-page-part-submit-date
+            }
+
          ] else {
             title-page-part
         }
 
-        #v(0.1fr)
+        #v(5fr)
     ]
 
     // page setup
@@ -146,10 +199,10 @@
                 
                 if header-right != none {header-right} else [
                     #show: align.with(top + right)
-                    #context(here().page())
+                    #context(counter(page).display())
                 ]
             )
-        ] + if show-header-line { v(-0.5em) + line(length: 100%, stroke: blue) },
+        ] + if show-header-line { v(-0.5em) + line(length: 100%, stroke: accent-color) },
     )
 
     state("grape-suite-element-sentence-supplement").update(sentence-supplement)
@@ -157,8 +210,10 @@
 
     // outline
     if show-outline or show-todolist {
-        pad(x: 2em, {
             if show-outline {
+                show heading: set text(fill:accent-color)
+
+                set outline.entry(fill: repeat("_"))
                 outline(indent: 1.5em)
                 v(1fr)
             }
@@ -166,7 +221,6 @@
             if show-todolist {
                 list-todos()
             }
-        })
 
         pagebreak(weak: true)
     }
@@ -179,7 +233,7 @@
             .map(e => context {
                 if here().page() == e.loc.at(0) {
                     set par(justify: false, leading: 0.65em)
-                    place(top + right, align(left, text(fill: blue, size: 0.75em, hyphenate: false, pad(x: 0.5cm, block(width: 3cm, strong(e.body))))), dy: e.loc.at(1).y)
+                    place(top + right, align(left, text(fill: accent-color, size: 0.75em, hyphenate: false, pad(x: 0.5cm, block(width: 3cm, strong(e.body))))), dy: e.loc.at(1).y)
                 } else {
                 }
             }).join[],
@@ -188,11 +242,11 @@
             set text(font: title-font, size: 0.75em)
 
             if show-footer-line {
-                line(length: 100%, stroke: blue)
+                line(length: 100%, stroke: accent-color)
                 v(-0.5em)
             }
 
-            table(columns: (1fr, auto, 1fr),
+            table(columns: (1fr, auto, auto),
                 align: top,
                 stroke: none,
                 inset: 0pt,
@@ -214,22 +268,30 @@
 
     show heading: set par(leading: 0.65em, justify: false)
     set par(justify: true, leading: 1em, spacing: 1em, first-line-indent: 1.5em)
+    show bibliography: set bibliography(style: "static/ieee-superscript.csl")
 
-    counter(page).update(1)
     body
-
-    // backup page count, because last page should not be counted
-    context counter("grape-suite-last-page").update(counter(page).at(here()))
 
     // declaration of independent work
     if show-declaration-of-independent-work {
         pagebreak(weak: true)
-        set page(header: {v(-0.5em) + line(length: 100%, stroke: blue) })
+        set page(header: {v(-0.5em) + line(length: 100%, stroke: accent-color) })
+        
+        //LTeX: language=de-DE
 
-        heading(outlined: false, numbering: none, [Selbstständigkeitserklärung])
-        [Hiermit versichere ich, dass ich die vorliegende schriftliche Hausarbeit (Seminararbeit, Belegarbeit) selbstständig verfasst und keine anderen als die von mir angegebenen Quellen und Hilfsmittel benutzt habe. Die Stellen der Arbeit, die anderen Werken wörtlich oder sinngemäß entnommen sind, wurden in jedem Fall unter Angabe der Quellen (einschließlich des World Wide Web und anderer elektronischer Text- und Datensammlungen) kenntlich gemacht. Dies gilt auch für beigegebene Zeichnungen, bildliche Darstellungen, Skizzen und dergleichen. Ich versichere weiter, dass die Arbeit in gleicher oder ähnlicher Fassung noch nicht Bestandteil einer Prüfungsleistung oder einer schriftlichen Hausarbeit (Seminararbeit, Belegarbeit) war. Mir ist bewusst, dass jedes Zuwiderhandeln als Täuschungsversuch zu gelten hat, aufgrund dessen das Seminar oder die Übung als nicht bestanden bewertet und die Anerkennung der Hausarbeit als Leistungsnachweis/Modulprüfung (Scheinvergabe) ausgeschlossen wird. Ich bin mir weiter darüber im Klaren, dass das zuständige Lehrerprüfungsamt/Studienbüro über den Betrugsversuch informiert werden kann und Plagiate rechtlich als Straftatbestand gewertet werden.]
+        heading(outlined: false, numbering: none, [Eigenständigkeitserklärung])
+        set block(spacing: 2em)
 
-        v(1cm)
+        [
+            #set par(leading: 0.8em)
+            #set text(size: 10pt)
+            + Hiermit versichere ich, dass ich die vorliegende Arbeit - bei einer Gruppenarbeit die von mir zu verantwortenden und entsprechend gekennzeichneten Teile - selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe. Ich trage die Verantwortung für die Qualität des Textes sowie die Auswahl aller Inhalte und habe sichergestellt, dass Informationen und Argumente mit geeigneten wissenschaftlichen Quellen belegt bzw. gestützt werden. Die aus fremden oder auch eigenen, älteren Quellen wörtlich oder sinngemäß übernommenen Textstellen, Gedankengänge, Konzepte, Grafiken etc. in meinen Ausführungen habe ich als solche eindeutig gekennzeichnet und mit vollständigen Verweisen auf die jeweilige Quelle versehen. Alle weiteren Inhalte dieser Arbeit ohne entsprechende Verweise stammen im urheberrechtlichen Sinn von mir.
+            + Ich weiß, dass meine Eigenständigkeitserklärung sich auch auf nicht zitierfähige, generierende KI-Anwendungen (nachfolgend „generierende KI“) bezieht. Mir ist bewusst, dass die Verwendung von generierender KI unzulässig ist, sofern nicht deren Nutzung von der prüfenden Person ausdrücklich freigegeben wurde (Freigabeerklärung). Sofern eine Zulassung als Hilfsmittel erfolgt ist, versichere ich, dass ich mich generierender KI lediglich als Hilfsmittel bedient habe und in der vorliegenden Arbeit mein gestalterischer Einfluss deutlich überwiegt. Ich verantworte die Übernahme, der von mir verwendeten maschinell generierten Passagen in meiner Arbeit vollumfänglich selbst. Für den Fall der Freigabe der Verwendung von generierender KI für die Erstellung der vorliegenden Arbeit wird eine Verwendung in einem gesonderten Anhang meiner Arbeit kenntlich gemacht. Dieser Anhang enthält eine Angabe oder eine detaillierte Dokumentation über die Verwendung generierender KI gemäß den Vorgaben in der Freigabeerklärung der prüfenden Person. Die Details zum Gebrauch generierender KI bei der Erstellung der vorliegenden Arbeit inklusive Art, Ziel und Umfang der Verwendung sowie die Art der Nachweispflicht habe ich der Freigabeerklärung der prüfenden Person entnommen.
+            + Ich versichere des Weiteren, dass die vorliegende Arbeit bisher weder im In- noch im Ausland in gleicher oder ähnlicher Form einer anderen Prüfungsbehörde vorgelegt wurde oder in deutscher oder einer anderen Sprache als Veröffentlichung erschienen ist.
+            + Mir ist bekannt, dass ein Verstoß gegen die vorbenannten Punkte prüfungsrechtliche Konsequenzen haben und insbesondere dazu führen kann, dass meine Prüfungsleistung als Täuschung und damit als mit „nicht bestanden“ bewertet werden kann. Bei mehrfachem oder schwerwiegendem Täuschungsversuch kann ich befristet oder sogar dauerhaft von der Erbringung weiterer Prüfungsleistungen in meinem Studiengang ausgeschlossen werden.
+            ]
+
+        v(0.5cm)
 
         table(columns: (auto, auto, auto, auto),
             stroke: white,

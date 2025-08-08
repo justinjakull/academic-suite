@@ -1,6 +1,7 @@
+//LTeX: enabled=false
+
 #import "@preview/polylux:0.4.0"
 
-#import "german-dates.typ": semester, weekday
 #import "colors.typ": *
 #import "todo.typ": todo, list-todos, todo-state, hide-todos
 #import "elements.typ": *

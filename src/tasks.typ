@@ -1,3 +1,5 @@
+//LTeX: enabled=false
+
 #import "colors.typ" as colors: *
 #import "elements.typ" as elements: *
 

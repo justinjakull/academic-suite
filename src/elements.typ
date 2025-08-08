@@ -1,3 +1,5 @@
+//LTeX: enabled=false
+
 #import "colors.typ": *
 
 #let big-heading(title) = {
@@ -152,7 +154,7 @@
     counter("grape-suite-sentence-counter").step())
 }
 
-#let format-heading-numbering(body) = {
+#let format-heading-numbering(body, accent-color: blue) = {
     show heading: it => context {
         let num-style = it.numbering
 
@@ -160,10 +162,10 @@
             return it
         }
 
-        let num = text(weight: "thin", numbering(num-style, ..counter(heading).at(here()))+[ \u{200b}])
+        let num = text(weight: "regular", numbering(num-style, ..counter(heading).at(here()))+[ \u{200b}])
         let x-offset = -1 * measure(num).width
 
-        pad(left: x-offset, par(hanging-indent: -1 * x-offset, text(fill: blue.lighten(25%), num) + [] + text(fill: blue, it.body)))
+        pad(left: x-offset, par(hanging-indent: -1 * x-offset, text(fill: accent-color.lighten(25%), num) + [] + text(it.body)))
     }
 
     body
