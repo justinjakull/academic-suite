@@ -32,7 +32,9 @@
         strong([To do:])
 
         list(tight: false, ..todo-list.map(e =>
-            strong[p. #e.location().page()] +
-            if e.value.content != none { [: #e.value.content] }))
+            link(e.location())[
+                #strong[p. #e.location().page()]
+                #if e.value.content != none { [: #e.value.content] }]
+        ))
     }
 }
