@@ -1,4 +1,4 @@
-#import "/src/library.typ": subtype
+#import "../src/library.typ": subtype
 
 #show: subtype.protocol.with(
     title: "Some session's title",

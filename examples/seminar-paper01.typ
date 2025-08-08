@@ -1,11 +1,11 @@
-#import "/src/library.typ": seminar-paper, german-dates
-#import seminar-paper: todo, definition, sidenote
+#import "../src/library.typ": thesis
+#import thesis: todo, definition, sidenote
 
 #let definition = definition.with(figured: true)
 
 #set text(lang: "de")
 
-#show: seminar-paper.project.with(
+#show: thesis.project.with(
     title: "Die Intensionalität von dass-Sätzen",
     subtitle: "Intensionale Kontexte in philosophischen Argumenten",
 
@@ -18,15 +18,10 @@
     submit-to: [Eingereicht bei],
     submit-by: [Eingereicht durch],
 
-    semester: german-dates.semester(datetime.today()),
-
     author: "Max Muster",
     student-number: "0123456789",
     email: "max.muster@uni-musterstadt.uni",
-    address: [
-        12345 Musterstadt \
-        Musterstraße 67
-    ],
+
 )
 
 = Einleitung

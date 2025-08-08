@@ -1,4 +1,4 @@
-#import "/src/library.typ": slides
+#import "../src/library.typ": slides
 #import slides: *
 
 #set text(lang: "de")
