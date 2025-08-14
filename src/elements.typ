@@ -1,5 +1,3 @@
-//LTeX: enabled=false
-
 #import "colors.typ": *
 
 #let big-heading(title) = {

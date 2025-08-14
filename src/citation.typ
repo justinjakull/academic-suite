@@ -1,5 +1,3 @@
-//LTeX: enabled=false
-
 #let grape-suite-citation(body) = {
     set bibliography(style: "static/ieee-superscript.csl")
     body

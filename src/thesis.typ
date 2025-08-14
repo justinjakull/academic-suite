@@ -1,5 +1,3 @@
-//LTeX: enabled=false
-
 #import "colors.typ" as colors: *
 #import "todo.typ": todo, list-todos, hide-todos
 #import "elements.typ": *
@@ -61,10 +59,6 @@
     footer-middle: none,
     footer-left: none,
     show-footer-line: true,
-
-    show-outline: true,
-    show-todolist: true,
-    show-declaration-of-independent-work: true,
 
     page-margins: none,
 
@@ -208,22 +202,6 @@
     state("grape-suite-element-sentence-supplement").update(sentence-supplement)
     show: sentence-logic
 
-    // outline
-    if show-outline or show-todolist {
-            if show-outline {
-                show heading: set text(fill:accent-color)
-
-                set outline.entry(fill: repeat("_"))
-                outline(indent: 1.5em)
-                v(1fr)
-            }
-
-            if show-todolist {
-                list-todos()
-            }
-
-        pagebreak(weak: true)
-    }
 
     // main body setup
     set page(
@@ -271,39 +249,6 @@
     show bibliography: set bibliography(style: "static/ieee-superscript.csl")
 
     body
-
-    // declaration of independent work
-    if show-declaration-of-independent-work {
-        pagebreak(weak: true)
-        set page(header: {v(-0.5em) + line(length: 100%, stroke: accent-color) })
-        
-        //LTeX: language=de-DE
-
-        heading(outlined: false, numbering: none, [Eigenständigkeitserklärung])
-        set block(spacing: 2em)
-
-        [
-            #set par(leading: 0.8em)
-            #set text(size: 10pt)
-            + Hiermit versichere ich, dass ich die vorliegende Arbeit - bei einer Gruppenarbeit die von mir zu verantwortenden und entsprechend gekennzeichneten Teile - selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe. Ich trage die Verantwortung für die Qualität des Textes sowie die Auswahl aller Inhalte und habe sichergestellt, dass Informationen und Argumente mit geeigneten wissenschaftlichen Quellen belegt bzw. gestützt werden. Die aus fremden oder auch eigenen, älteren Quellen wörtlich oder sinngemäß übernommenen Textstellen, Gedankengänge, Konzepte, Grafiken etc. in meinen Ausführungen habe ich als solche eindeutig gekennzeichnet und mit vollständigen Verweisen auf die jeweilige Quelle versehen. Alle weiteren Inhalte dieser Arbeit ohne entsprechende Verweise stammen im urheberrechtlichen Sinn von mir.
-            + Ich weiß, dass meine Eigenständigkeitserklärung sich auch auf nicht zitierfähige, generierende KI-Anwendungen (nachfolgend „generierende KI“) bezieht. Mir ist bewusst, dass die Verwendung von generierender KI unzulässig ist, sofern nicht deren Nutzung von der prüfenden Person ausdrücklich freigegeben wurde (Freigabeerklärung). Sofern eine Zulassung als Hilfsmittel erfolgt ist, versichere ich, dass ich mich generierender KI lediglich als Hilfsmittel bedient habe und in der vorliegenden Arbeit mein gestalterischer Einfluss deutlich überwiegt. Ich verantworte die Übernahme, der von mir verwendeten maschinell generierten Passagen in meiner Arbeit vollumfänglich selbst. Für den Fall der Freigabe der Verwendung von generierender KI für die Erstellung der vorliegenden Arbeit wird eine Verwendung in einem gesonderten Anhang meiner Arbeit kenntlich gemacht. Dieser Anhang enthält eine Angabe oder eine detaillierte Dokumentation über die Verwendung generierender KI gemäß den Vorgaben in der Freigabeerklärung der prüfenden Person. Die Details zum Gebrauch generierender KI bei der Erstellung der vorliegenden Arbeit inklusive Art, Ziel und Umfang der Verwendung sowie die Art der Nachweispflicht habe ich der Freigabeerklärung der prüfenden Person entnommen.
-            + Ich versichere des Weiteren, dass die vorliegende Arbeit bisher weder im In- noch im Ausland in gleicher oder ähnlicher Form einer anderen Prüfungsbehörde vorgelegt wurde oder in deutscher oder einer anderen Sprache als Veröffentlichung erschienen ist.
-            + Mir ist bekannt, dass ein Verstoß gegen die vorbenannten Punkte prüfungsrechtliche Konsequenzen haben und insbesondere dazu führen kann, dass meine Prüfungsleistung als Täuschung und damit als mit „nicht bestanden“ bewertet werden kann. Bei mehrfachem oder schwerwiegendem Täuschungsversuch kann ich befristet oder sogar dauerhaft von der Erbringung weiterer Prüfungsleistungen in meinem Studiengang ausgeschlossen werden.
-            ]
-
-        v(0.5cm)
-
-        table(columns: (auto, auto, auto, auto),
-            stroke: white,
-            inset: 0cm,
-
-            strong([Ort:]) + h(0.5cm),
-            repeat("."+hide("'")),
-            h(0.5cm) + strong([Unterschrift:]) + h(0.5cm),
-            repeat("."+hide("'")),
-            v(0.75cm) + strong([Datum:]) + h(0.5cm),
-            v(0.75cm) + repeat("."+hide("'")),)
-    }
 }
 
 #let sidenote(body) = context {
@@ -313,4 +258,54 @@
         k.push((loc: (pos.page(), pos.position()), body: body))
         return k
     })
+}
+
+#let show-declaration-of-independent-work(accent-color: blue) = {
+    pagebreak(weak: true)
+    set page(header: {v(-0.5em) + line(length: 100%, stroke: accent-color) })
+    
+    //LTeX: language=de-DE
+
+    heading(outlined: false, numbering: none, [Eigenständigkeitserklärung])
+    set block(spacing: 2em)
+
+    [
+        #set par(leading: 0.8em)
+        #set text(size: 10pt)
+        + Hiermit versichere ich, dass ich die vorliegende Arbeit - bei einer Gruppenarbeit die von mir zu verantwortenden und entsprechend gekennzeichneten Teile - selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe. Ich trage die Verantwortung für die Qualität des Textes sowie die Auswahl aller Inhalte und habe sichergestellt, dass Informationen und Argumente mit geeigneten wissenschaftlichen Quellen belegt bzw. gestützt werden. Die aus fremden oder auch eigenen, älteren Quellen wörtlich oder sinngemäß übernommenen Textstellen, Gedankengänge, Konzepte, Grafiken etc. in meinen Ausführungen habe ich als solche eindeutig gekennzeichnet und mit vollständigen Verweisen auf die jeweilige Quelle versehen. Alle weiteren Inhalte dieser Arbeit ohne entsprechende Verweise stammen im urheberrechtlichen Sinn von mir.
+        + Ich weiß, dass meine Eigenständigkeitserklärung sich auch auf nicht zitierfähige, generierende KI-Anwendungen (nachfolgend „generierende KI“) bezieht. Mir ist bewusst, dass die Verwendung von generierender KI unzulässig ist, sofern nicht deren Nutzung von der prüfenden Person ausdrücklich freigegeben wurde (Freigabeerklärung). Sofern eine Zulassung als Hilfsmittel erfolgt ist, versichere ich, dass ich mich generierender KI lediglich als Hilfsmittel bedient habe und in der vorliegenden Arbeit mein gestalterischer Einfluss deutlich überwiegt. Ich verantworte die Übernahme, der von mir verwendeten maschinell generierten Passagen in meiner Arbeit vollumfänglich selbst. Für den Fall der Freigabe der Verwendung von generierender KI für die Erstellung der vorliegenden Arbeit wird eine Verwendung in einem gesonderten Anhang meiner Arbeit kenntlich gemacht. Dieser Anhang enthält eine Angabe oder eine detaillierte Dokumentation über die Verwendung generierender KI gemäß den Vorgaben in der Freigabeerklärung der prüfenden Person. Die Details zum Gebrauch generierender KI bei der Erstellung der vorliegenden Arbeit inklusive Art, Ziel und Umfang der Verwendung sowie die Art der Nachweispflicht habe ich der Freigabeerklärung der prüfenden Person entnommen.
+        + Ich versichere des Weiteren, dass die vorliegende Arbeit bisher weder im In- noch im Ausland in gleicher oder ähnlicher Form einer anderen Prüfungsbehörde vorgelegt wurde oder in deutscher oder einer anderen Sprache als Veröffentlichung erschienen ist.
+        + Mir ist bekannt, dass ein Verstoß gegen die vorbenannten Punkte prüfungsrechtliche Konsequenzen haben und insbesondere dazu führen kann, dass meine Prüfungsleistung als Täuschung und damit als mit „nicht bestanden“ bewertet werden kann. Bei mehrfachem oder schwerwiegendem Täuschungsversuch kann ich befristet oder sogar dauerhaft von der Erbringung weiterer Prüfungsleistungen in meinem Studiengang ausgeschlossen werden.
+        ]
+
+    v(0.5cm)
+
+    table(columns: (auto, auto, auto, auto),
+        stroke: white,
+        inset: 0cm,
+
+        strong([Ort:]) + h(0.5cm),
+        repeat("."+hide("'")),
+        h(0.5cm) + strong([Unterschrift:]) + h(0.5cm),
+        repeat("."+hide("'")),
+        v(0.75cm) + strong([Datum:]) + h(0.5cm),
+        v(0.75cm) + repeat("."+hide("'")),)
+}
+
+    // outline
+#let show-ountline-todo(show-outline: true, show-todolist:true, accent-color: blue) = {
+        set page(footer: [])
+        if show-outline {
+            show heading: set text(fill:accent-color)
+
+            set outline.entry(fill: repeat("_"))
+            outline(indent: 1.5em)
+            v(1fr)
+        }
+
+        if show-todolist {
+            list-todos()
+        }
+
+    pagebreak(weak: true)
 }

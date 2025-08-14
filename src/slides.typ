@@ -1,5 +1,3 @@
-//LTeX: enabled=false
-
 #import "@preview/polylux:0.4.0"
 
 #import "colors.typ": *

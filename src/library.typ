@@ -1,5 +1,3 @@
-//LTeX: enabled=false
-
 #import "exercise.typ" as exercise
 #import "slides.typ" as slides
 #import "thesis.typ" as thesis
