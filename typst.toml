@@ -11,7 +11,7 @@ license = "MIT"
 
 keywords = ["clean", "blue", "minimal", "paper", "academic"]
 description = "Library of templates for exams, seminar papers, homeworks, etc. based on grape-suite, designed for all kinds of academic uses"
-categories = ["layout", "paper", "presentation", office]
+categories = ["layout", "paper", "presentation", "office"]
 exclude = ["/img/*", "/examples/*"]
 
 [template]
