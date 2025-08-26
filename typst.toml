@@ -1,17 +1,17 @@
 [package]
-name = "uni-jena-suite"
-version = "0.2.1"
-compiler = "0.13.0"
+name = "academic-suite"
+version = "0.2.2"
+compiler = "0.13.1"
 entrypoint = "src/library.typ"
 
 authors = ["Justin Jakull <justin@jakull.de>"]
 
-repository = "https://github.com/piepert/grape-suite"
+repository = "https://github.com/justinjakull/academic-suite"
 license = "MIT"
 
-keywords = ["clean", "blue", "minimal", "paper", "jena"]
-description = "Library of templates for exams, seminar papers, homeworks, etc. based on grape-suite, designed for uni-jena.de corporate deisgn"
-categories = ["layout", "paper", "presentation"]
+keywords = ["clean", "blue", "minimal", "paper", "academic"]
+description = "Library of templates for exams, seminar papers, homeworks, etc. based on grape-suite, designed for all kinds of academic uses"
+categories = ["layout", "paper", "presentation", office]
 exclude = ["/img/*", "/examples/*"]
 
 [template]

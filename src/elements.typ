@@ -61,10 +61,18 @@
                 paint: primary-color,
                 dash: if dotted { "dotted" } else { "solid" })),
 
-
-            text(size: 0.75em, strong(text(fill: tertiary-color, smallcaps(title) + if show-numbering or figured {
-                [ ] + context numbering(numbering-format, ..counter.at(here()))
-            } + h(1fr) + time))) + block(body))
+            block(sticky: true,
+                text(size: 0.75em, 
+                    strong(text(fill: tertiary-color, 
+                        smallcaps(title) 
+                        + if show-numbering or figured {
+                            [ ] + context numbering(numbering-format, ..counter.at(here()))
+                        } 
+                        + h(1fr) + time))
+                )
+            ) 
+            + block(body)
+        )
     }
 
     if figured {
@@ -181,15 +189,21 @@
             #set par(leading: 0.65em)
             #it.body\
         ]
-
-        block(text(size: 0.75em, (it.attribution)))
+        if type(it.attribution) == label {
+            block(text(size: 0.75em, cite(it.attribution, form: "prose")))
+        } else {
+            block(text(size: 0.75em, (it.attribution)))
+        }
+        
     }
 
     show quote.where(block: true): pad.with(left: 1.5em, y: 0.65em, rest: 0em)
 
     show quote.where(block: false): it => {
         ["] + h(0pt, weak: true) + it.body + h(0pt, weak: true) + ["]
-        if it.attribution != none [#footnote(it.attribution)]
+        if it.attribution == none [] else if type(it.attribution) == label {
+           " [" + cite(it.attribution, form: "prose") + "]"
+        } else if type(it.attribution) == content {footnote(it.a)}
     }
 
     body
